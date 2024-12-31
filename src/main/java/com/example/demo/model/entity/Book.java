@@ -1,9 +1,9 @@
 package com.example.demo.model.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Book {
@@ -15,6 +15,8 @@ public class Book {
     private String title;
     private String author;
     private String genre;
+
+    private boolean available = true; // Track whether the book is available
 
     // Default constructor
     public Book() {
@@ -58,5 +60,13 @@ public class Book {
 
     public void setGenre(String genre) {
         this.genre = genre;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }

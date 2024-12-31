@@ -1,0 +1,22 @@
+<!-- borrowedBooks.html -->
+<h2>Your Borrowed Books</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Return Book</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="borrowing : ${borrowings}">
+        <td th:text="${borrowing.book.title}"></td>
+        <td th:text="${borrowing.book.author}"></td>
+        <td>
+            <form th:action="@{/books/return/{borrowingId}(borrowingId=${borrowing.id})}" method="post">
+                <button type="submit">Return</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>

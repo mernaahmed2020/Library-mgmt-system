@@ -7,10 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
-@RequestMapping("/books")  // Common URL for all book-related routes
+@RequestMapping("/books")
 public class BookController {
 
     @Autowired
@@ -19,12 +17,11 @@ public class BookController {
     // GET method to display all books
     @GetMapping
     public String getAllBooks(Model model) {
-        List<Book> books = bookService.getAllBooks();
-        model.addAttribute("books", books); // Add books to the model
+        model.addAttribute("books", bookService.getAllBooks());
         return "bookList"; // Return the view name (HTML template)
     }
 
-    // POST method to create a new book
+    // POST method to add a new book
     @PostMapping
     public String addBook(@RequestParam String title, @RequestParam String author, @RequestParam String genre) {
         Book newBook = new Book(title, author, genre);
