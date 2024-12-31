@@ -3,36 +3,44 @@ package com.example.demo.controller;
 import com.example.demo.model.entity.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
-@RestController
-@RequestMapping("/users")
+@Controller
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User savedUser = userService.saveUser(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    // Display the registration success page
+    @GetMapping("/success")
+    public String registrationSuccess() {
+        return "registration-success";  // Registration success page
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userService.getUserById(id);
-        return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    // Show the registration form
+    @GetMapping("/register")
+    public String showRegistrationForm() {
+        return "register";  // Registration page
     }
 
-    @GetMapping("/email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        User user = userService.getUserByEmail(email);
-        return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
-    }
+    // Handle user registration submission
+    @PostMapping("/register")
+    public String registerUser(@ModelAttribute User user, Model model) {
+        // Check if the username or email already exists
+        if (userService.findByUsername(user.getUsername()).isPresent()) {
+            model.addAttribute("error", "Username already exists");
+            return "register";  // Return to the registration page with error message
+        }
+        if (userService.findByEmail(user.getEmail()).isPresent()) {
+            model.addAttribute("error", "Email already exists");
+            return "register";  // Return to the registration page with error message
+        }
 
-    // Add other endpoints as needed
+        // Save the new user to the database
+        userService.saveUser(user);
+        return "redirect:/user/success";  // Redirect to success page after registration
+    }
 }

@@ -65,6 +65,6 @@ public class Transaction {
 
     @Override
     public String toString() {
-        return "Transaction{id=" + id + ", amount=" + amount + ", transactionDate=" + transactionDate + ", user=" + user.getName() + "}";
+        return "Transaction{id=" + id + ", amount=" + amount + ", transactionDate=" + transactionDate + ", user=" + user.getUsername() + "}";
     }
 }
