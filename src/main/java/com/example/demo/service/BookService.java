@@ -27,4 +27,9 @@ public class BookService {
     public void deleteBook(Long id) {
         bookRepository.deleteById(id);
     }
+
+    // Search books by title, author, or genre
+    public List<Book> searchBooks(String search) {
+        return bookRepository.findByTitleContainingOrAuthorContainingOrGenreContaining(search, search, search);
+    }
 }

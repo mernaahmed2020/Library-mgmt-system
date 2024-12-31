@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/books")
 public class BookController {
@@ -34,5 +36,13 @@ public class BookController {
     public String deleteBook(@PathVariable("id") Long id) {
         bookService.deleteBook(id);
         return "redirect:/books"; // Redirect back to the books list page after deleting the book
+    }
+
+    // GET method to search books based on title, author, or genre
+    @GetMapping("/search")
+    public String searchBooks(@RequestParam("search") String search, Model model) {
+        List<Book> books = bookService.searchBooks(search);
+        model.addAttribute("books", books); // Add the search results to the model
+        return "bookList"; // Return the view to display the results
     }
 }

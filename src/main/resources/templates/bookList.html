@@ -5,6 +5,15 @@
 </head>
 <body>
 <h1>Books List</h1>
+
+<!-- Search Form -->
+<form action="#" th:action="@{/books/search}" method="get">
+    <label for="search">Search Books:</label>
+    <input type="text" id="search" name="search" placeholder="Search by title, author, or genre">
+    <button type="submit">Search</button>
+</form>
+
+<h2>Book List</h2>
 <table>
     <thead>
     <tr>
@@ -36,5 +45,6 @@
     <input type="text" id="genre" name="genre" required>
     <button type="submit">Add Book</button>
 </form>
+
 </body>
 </html>
